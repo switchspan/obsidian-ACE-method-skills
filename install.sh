@@ -7,13 +7,13 @@ set -euo pipefail
 #   ./install.sh --agents                # copy into ~/.agents/skills (Codex and other Agent Skills harnesses)
 #   ./install.sh --claude --agents       # both
 #   ./install.sh --vault ~/Documents/ideaverse
-#                                        # install into <vault>/.claude/skills and copy CLAUDE.md to the vault root
+#                                        # install into <vault>/.claude/skills and copy CLAUDE.md to <vault>/.claude/
 #   ./install.sh --link ...              # symlink instead of copy, so `git pull` updates the install
 #   ./install.sh --uninstall ...         # remove these skills from the chosen targets
 #   ./install.sh --dry-run ...           # show what would happen
 #
 # Without --force, an existing skill folder that is not a symlink is left alone,
-# and an existing vault CLAUDE.md is never overwritten.
+# and an existing <vault>/.claude/CLAUDE.md is never overwritten.
 
 REPO="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$REPO/skills"
@@ -91,11 +91,18 @@ for dest in "${dests[@]}"; do
   done
 done
 
+# CLAUDE.md goes in <vault>/.claude/: Claude Code loads it from there, and
+# Obsidian ignores dot-folders, so it never shows up as a note.
 if [ -n "$vault" ] && [ "$uninstall" = 0 ]; then
-  if [ -e "$vault/CLAUDE.md" ] && [ "$force" = 0 ]; then
-    echo "$vault/CLAUDE.md exists; left as is (compare with $REPO/CLAUDE.md, or re-run with --force)"
+  vault_md="$vault/.claude/CLAUDE.md"
+  if [ -e "$vault_md" ] && [ "$force" = 0 ]; then
+    echo "$vault_md exists; left as is (compare with $REPO/CLAUDE.md, or re-run with --force)"
   else
-    run cp "$REPO/CLAUDE.md" "$vault/CLAUDE.md"; echo "copied CLAUDE.md to $vault"
+    run cp "$REPO/CLAUDE.md" "$vault_md"; echo "copied CLAUDE.md to $vault_md"
+  fi
+  if [ -e "$vault/CLAUDE.md" ]; then
+    echo "note: $vault/CLAUDE.md also exists. Claude loads both, and Obsidian shows the root one as a note."
+    echo "      Merge anything you need into $vault_md, then delete the root copy."
   fi
 fi
 

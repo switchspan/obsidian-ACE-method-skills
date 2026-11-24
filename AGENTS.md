@@ -1,6 +1,6 @@
 # Agent notes for this repo
 
-This repo holds Claude Code skills for an Ideaverse Pro 2.5 Obsidian vault. `CLAUDE.md` is **not** repo config: it is the vault-level instruction file users copy into their vault root, so keep repo-development notes here instead.
+This repo holds Claude Code skills for an Ideaverse Pro 2.5 Obsidian vault. `CLAUDE.md` is **not** repo config: it is the vault-level instruction file users copy to `<vault>/.claude/CLAUDE.md`, so keep repo-development notes here instead.
 
 ## Agent skills
 

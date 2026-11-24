@@ -43,7 +43,7 @@ These skills work within this structure, automatically placing notes in the corr
 
 - [Claude Code](https://claude.ai/claude-code) CLI installed
 - An Obsidian vault structured using the ACE Method (this fork expects Ideaverse Pro 2.5, from https://www.linkingyourthinking.com)
-- The included `CLAUDE.md` copied to your vault root (see Setup Guide below)
+- The included `CLAUDE.md` copied to `<vault>/.claude/CLAUDE.md` (see Setup Guide below)
 
 ### Installation
 
@@ -57,7 +57,7 @@ claude plugin marketplace add switchspan/obsidian-ACE-method-skills
 claude plugin install ace-method-skills@ace-method
 ```
 
-Plugin skills are namespaced: `/ace-method-skills:web-capture`, `/ace-method-skills:create-knowledge`, `/ace-method-skills:vault-review`. Copy [`CLAUDE.md`](CLAUDE.md) into your vault root yourself.
+Plugin skills are namespaced: `/ace-method-skills:web-capture`, `/ace-method-skills:create-knowledge`, `/ace-method-skills:vault-review`. Copy [`CLAUDE.md`](CLAUDE.md) to `<vault>/.claude/CLAUDE.md` yourself.
 
 </details>
 
@@ -68,12 +68,12 @@ Plugin skills are namespaced: `/ace-method-skills:web-capture`, `/ace-method-ski
 git clone https://github.com/switchspan/obsidian-ACE-method-skills.git
 cd obsidian-ACE-method-skills
 
-./install.sh --vault ~/path/to/vault   # <vault>/.claude/skills + CLAUDE.md in the vault root (recommended)
+./install.sh --vault ~/path/to/vault   # <vault>/.claude/skills + <vault>/.claude/CLAUDE.md (recommended)
 ./install.sh                           # ~/.claude/skills (all projects)
 ./install.sh --agents                  # ~/.agents/skills (Codex and other Agent Skills harnesses)
 ```
 
-Add `--link` to symlink instead of copy, so `git pull` updates the install. Add `--dry-run` to preview, `--force` to replace existing copies, and `--uninstall` to remove. An existing vault `CLAUDE.md` is never overwritten without `--force`.
+Add `--link` to symlink instead of copy, so `git pull` updates the install. Add `--dry-run` to preview, `--force` to replace existing copies, and `--uninstall` to remove. An existing `<vault>/.claude/CLAUDE.md` is never overwritten without `--force`.
 
 </details>
 
@@ -84,7 +84,7 @@ Add `--link` to symlink instead of copy, so `git pull` updates the install. Add 
 npx skills@latest add switchspan/obsidian-ACE-method-skills   # add -a <agent> to preselect: cursor, opencode, windsurf, amp, …
 ```
 
-Update with `npx skills@latest update`. Copy `CLAUDE.md` into your vault root yourself.
+Update with `npx skills@latest update`. Copy `CLAUDE.md` to `<vault>/.claude/CLAUDE.md` yourself.
 
 </details>
 
@@ -100,7 +100,7 @@ Then open your vault in your agent and try:
 
 ## 🧠 CLAUDE.md — The Routing Document
 
-The included [`CLAUDE.md`](CLAUDE.md) is the central configuration file that gives Claude Code a complete understanding of your Ideaverse vault. Place it in the root of your Obsidian vault and it will serve as the instruction layer between Claude and your knowledge system.
+The included [`CLAUDE.md`](CLAUDE.md) is the central configuration file that gives Claude Code a complete understanding of your Ideaverse vault. Put it at `<vault>/.claude/CLAUDE.md` and it will serve as the instruction layer between Claude and your knowledge system. Claude Code (and Claudian, which runs it inside Obsidian) loads it from there. Because Obsidian ignores dot-folders, it won't show up in search, the graph, or your Bases the way a root-level `CLAUDE.md` would.
 
 **What it defines:**
 - **Vault architecture** — The full ACE folder structure and what goes where
@@ -209,7 +209,7 @@ claude /web-capture https://example.com/article-about-ai
 
 To get the most out of these skills, set up your Obsidian vault with supporting files that help Claude understand your structure:
 
-### 1. Copy `CLAUDE.md` into your vault root
+### 1. Copy `CLAUDE.md` to `<vault>/.claude/CLAUDE.md`
 
 The included [`CLAUDE.md`](CLAUDE.md) describes the Ideaverse Pro 2.5 layout, frontmatter, templates, Bases, and tag families. Edit it to add your own topic MOCs and Areas of Effort.
 
