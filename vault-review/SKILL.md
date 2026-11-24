@@ -9,7 +9,7 @@ Audit the vault for health, completeness, and connection opportunities. This is 
 
 Pro 2.5 builds its dashboards with Obsidian **Bases** (`Atlas/Maps/Bases/*.base`), not Dataview. You can't run Bases, but they are readable YAML. Where a check below mirrors a Base (e.g. ORPHANAGE), read that `.base` file first and apply the same filters by searching files directly, so your results match what the user sees in Obsidian.
 
-**Always skip** `.obsidian/`, `.claude/`, any other dot-folders, `x/` (system: templates, packs, visuals), and folders named `x` inside Atlas/Calendar/Efforts (archives), unless the user asks for them.
+**Always skip** `.obsidian/`, `.claude/`, any other dot-folders, `x/` (system: templates, packs, visuals), folders named `x` inside Atlas/Calendar/Efforts (archives), and root-level `CLAUDE.md`/`AGENTS.md`, unless the user asks for them. Ignore `[[...]]` inside backticks or code blocks; it isn't a link.
 
 ## Review Modes
 
@@ -41,7 +41,7 @@ Mirror `Atlas/Maps/Bases/ORPHANAGE.base`:
 How to check:
 1. For each `.md` in `+/`, `Atlas/`, `Calendar/`, `Efforts/` (excluding the skip list and anything with "Readwise" in its path), find outlinks: any `[[...]]` in the file.
 2. For notes with no outlinks, search the vault for `[[<basename>` or `[[<path>|` to find backlinks.
-3. Also flag Dots, Books/Talks/Papers/Courses, Projects, and Works with an empty `up`. They aren't orphans, but they're unanchored. Don't flag Calendar notes or Clippings: an empty `up` is normal for them in Ideaverse Pro.
+3. Also flag Dots, Talks/Papers/Courses, Projects, and Works with an empty `up`. They aren't orphans, but they're unanchored. Don't flag Calendar notes, Clippings, or Books: an empty `up` is normal for them in Ideaverse Pro (Books are reached through `by`/`collections`).
 4. Suggest an `up` (topic MOC for Dots/Sources, Area of Effort for Projects/Works) and any `related` links.
 
 ```
@@ -72,7 +72,7 @@ Also flag **malformed** frontmatter:
 - Legacy `in:` used instead of `collections:` → suggest renaming the key.
 - `collections` as a bare string instead of a list (`collections: "[[Clippings]]"`) → suggest the list form.
 - `tags` entries that aren't tags: sentences, wikilinks (`"[[Matt Pocock]]"`), emoji status markers, or a leading `#`.
-- Placeholder text left from templates (`{{date}}`, `<% ... %>`, `BLANK`).
+- Placeholder text left from templates (`{{date}}`, `<% ... %>`, or `BLANK` in the AOE "situation / objective / milestones" scaffold).
 - Notes whose keys differ from their siblings (e.g. one clipping using `by:` where the others use `author:`). Report these as a convention question, not an error. A whole folder differing from its template (clippings using `author:` while the template says `by:`) is stock Ideaverse behaviour: mention it at most once.
 
 ```
@@ -122,6 +122,8 @@ The highest-value check. For notes in `Atlas/Dots/` and `Atlas/Sources/`:
 ## Check 6: Placeholder Links
 
 Mirror ORPHANAGE's "Placeholder/Uncreated notes" view: find `[[wikilinks]]` that point to notes that don't exist. Group them by target. Targets linked from several notes are good candidates for new notes; one-off targets may be typos.
+
+Separate the user's own placeholders from **stock ones**. Ideaverse Pro ships maps (Library, Concepts Map, Thinking Map, Life Map, Philosophy MOC, Templates, Health/Finance AOEs, …) full of intentional unresolved links as prompts. Report those as one summary line, not item by item. Author and publisher links created by the Book Search template are also expected.
 
 ## Check 7: Tags
 
