@@ -1,0 +1,17 @@
+{
+  "name": "ace-method-skills",
+  "version": "1.0.0",
+  "description": "Claude skills for an Ideaverse Pro 2.5 Obsidian vault (ACE / Linking Your Thinking): capture web pages as Sources, turn any input into a structured note, and review vault health.",
+  "author": {
+    "name": "switchspan",
+    "url": "https://github.com/switchspan"
+  },
+  "repository": "https://github.com/switchspan/obsidian-ACE-method-skills",
+  "license": "MIT",
+  "keywords": ["obsidian", "ideaverse", "ace", "lyt", "pkm", "skills"],
+  "skills": [
+    "./skills/web-capture",
+    "./skills/create-knowledge",
+    "./skills/vault-review"
+  ]
+}

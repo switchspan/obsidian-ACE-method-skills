@@ -47,27 +47,54 @@ These skills work within this structure, automatically placing notes in the corr
 
 ### Installation
 
-1. Clone this repository or download the skills:
-   ```bash
-   git clone https://github.com/yanickfischer/obsidian-ACE-method-skills.git
-   ```
+Pick **one** route per agent. Installing more than one gives you every skill twice.
 
-2. Copy the skill folders to your Claude Code skills directory:
-   ```bash
-   cp -r obsidian-ACE-method-skills/* ~/.claude/skills/
-   ```
+<details open>
+<summary><strong>Claude Code plugin</strong> (updates when the plugin version changes)</summary>
 
-3. Navigate to your Obsidian vault:
-   ```bash
-   cd /path/to/your/obsidian/vault
-   ```
+```bash
+claude plugin marketplace add switchspan/obsidian-ACE-method-skills
+claude plugin install ace-method-skills@ace-method
+```
 
-4. Start using the skills:
-   ```bash
-   claude /web-capture https://example.com/article
-   claude /create-knowledge
-   claude /vault-review
-   ```
+Plugin skills are namespaced: `/ace-method-skills:web-capture`, `/ace-method-skills:create-knowledge`, `/ace-method-skills:vault-review`. Copy [`CLAUDE.md`](CLAUDE.md) into your vault root yourself.
+
+</details>
+
+<details>
+<summary><strong>Install script</strong> (Claude Code, Codex, any Agent Skills harness; best for a single vault)</summary>
+
+```bash
+git clone https://github.com/switchspan/obsidian-ACE-method-skills.git
+cd obsidian-ACE-method-skills
+
+./install.sh --vault ~/path/to/vault   # <vault>/.claude/skills + CLAUDE.md in the vault root (recommended)
+./install.sh                           # ~/.claude/skills (all projects)
+./install.sh --agents                  # ~/.agents/skills (Codex and other Agent Skills harnesses)
+```
+
+Add `--link` to symlink instead of copy, so `git pull` updates the install. Add `--dry-run` to preview, `--force` to replace existing copies, and `--uninstall` to remove. An existing vault `CLAUDE.md` is never overwritten without `--force`.
+
+</details>
+
+<details>
+<summary><strong>skills.sh</strong> (any other agent; editable copies, manual updates)</summary>
+
+```bash
+npx skills@latest add switchspan/obsidian-ACE-method-skills   # add -a <agent> to preselect: cursor, opencode, windsurf, amp, …
+```
+
+Update with `npx skills@latest update`. Copy `CLAUDE.md` into your vault root yourself.
+
+</details>
+
+Then open your vault in your agent and try:
+
+```
+/web-capture https://example.com/article
+/create-knowledge
+/vault-review
+```
 
 ---
 

@@ -1,0 +1,17 @@
+{
+  "name": "ace-method",
+  "owner": {
+    "name": "switchspan",
+    "url": "https://github.com/switchspan"
+  },
+  "description": "Ideaverse Pro 2.5 (ACE method) skills for Obsidian vaults, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "ace-method-skills",
+      "source": "./",
+      "description": "web-capture, create-knowledge and vault-review for an Ideaverse Pro 2.5 Obsidian vault.",
+      "category": "productivity",
+      "keywords": ["obsidian", "ideaverse", "pkm"]
+    }
+  ]
+}
