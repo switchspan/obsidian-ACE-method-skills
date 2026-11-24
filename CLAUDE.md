@@ -1,123 +1,111 @@
-# Ideaverse — Claude Configuration
+# Ideaverse Pro 2.5 — Claude Configuration
 
-This is a personal knowledge management (PKM) vault in Obsidian, built on **Nick Milo's ACE Folder Framework** and **Linking Your Thinking (LYT)** methodology.
+This is a personal knowledge management (PKM) vault in Obsidian, built on **Ideaverse Pro 2.5**: Nick Milo's **ACE Folder Framework** and **Linking Your Thinking (LYT)** methodology. Dashboards use Obsidian **Bases**, not Dataview.
 
 ## Vault Architecture (ACE)
 
 ```
-Home.md              ← Main dashboard and launchpad
-+/                   ← Inbox: quick captures before processing
-Atlas/               ← Knowledge base
-  Maps/              ← Maps of Content (MOCs) — navigational hubs
-  Dots/              ← Atomic knowledge notes
-    People/          ← Notes on people
-    Statements/      ← Ideas, claims, opinions, propositions
-    Things/          ← Reference material, guides, how-tos, tools
-    X/               ← Archive / older collections
-  Utilities/Images/  ← Atlas-specific images
-Calendar/            ← Time-stamped notes (daily notes, logs, meetings)
-Efforts/             ← Projects & tasks, sorted by intensity
-  On/                ← Active, high-priority work
-  Ongoing/           ← Steady, recurring efforts
-  Simmering/         ← Background, low-priority
-  Sleeping/          ← Paused / archived
-  Notes/             ← Effort-related reference notes
-x/                   ← System toolbox (templates, images, excalidraw)
-  Templates/         ← Note templates with property presets
+Home.md / Home Base.md / Home Pro.md   ← Launchpads
++/                       ← Inbox: quick captures before processing
+Atlas/                   ← Knowledge
+  Maps/                  ← Maps of Content (MOCs) and collection maps
+    Bases/               ← .base files (ATLAS, DOTS, SOURCES, EFFORTS, PROJECTS, CALENDAR, ORPHANAGE, …)
+  Dots/                  ← Atomic notes
+    People/  Questions/  Quotes/  Statements/  Things/
+    x/Groups/  x/PKM/    ← Groups; archived/system dots
+  Sources/               ← What you consumed
+    Books/ Clippings/ Courses/ Games/ Movies/ Papers/ Songs/ Talks/ TV/  x/
+Calendar/                ← Time
+  Days/                  ← Daily notes: YYYY-MM-DD.md
+  Records/               ← Events/ Ideas/ Meetings/ Nice Things/
+  Reviews/               ← Periodic reviews
+Efforts/                 ← Action
+  Areas/                 ← Areas of Effort (AOE/ holds top-level AOEs; subfolders per area)
+  Projects/              ← Active/ Simmering/ Sleeping/
+  Works/                 ← Articles/ Newsletters/ Videos/
+x/                       ← System: Templates/, Packs/, Visuals/, x/ (Prompts, Scripts)
 ```
 
-## Navigation — Use the Maps
+A folder named `x` inside a section is that section's archive or system space.
 
-When you need to find or understand content in this vault, **read the Maps of Content** in `Atlas/Maps/`. These are the primary navigation layer:
+## Navigation: Use the Maps
 
-- **Start here**: `Home.md` — links to all major maps
-- **All maps index**: `Atlas/Maps/Maps.md` — master list of all MOCs
-- **Key maps**:
-  - `Library.md` — LYT Classification System (000-900 Dewey-like categories)
-  - `Sources.md` — Books, movies, papers, and other source material
-  - `Thinking Map.md` — Concepts, mental models, thinking frameworks
-  - `People Map.md` — Notes on people
-  - `Life Map.md` — Personal grounding and values
-  - `Efforts.md` — Current projects and priorities
-  - `Study Dashboard.md` — custom-built dashboard for university courses (weekly lecture notes aggregator)
-  - `Concepts.md` — Core concept notes
-  - `Meta PKM.md` — Best practices for managing this system
+- **Launchpads**: `Atlas/Maps/Home.md`, `Home Base.md` (links to every Base view), `Home Pro.md`
+- **Index of maps**: `Atlas/Maps/Maps.md`
+- **Classification**: `Atlas/Maps/Library.md` (LYT Classification System, 000–900)
+- **Section maps**: `Atlas.md`, `Dots.md`, `Sources.md`, `Calendar.md`, `Efforts.md`, `Areas.md`, `Projects.md`, `Works.md`
+- **Topic MOCs** (examples): `AI MOC`, `PKM Map`, `Thinking Map`, `Infrastructure MOC`, `Philosophy MOC`, `People Map`, `Life Map`
+- **Garden workflow**: `Garden.md` → `Plant`, `Cultivate`, `Question`, `Repot`, `Revitalize`, `Revisit`; `Architect.md` → `Build`, `Renovate`
 
-Do NOT maintain a separate reference index. The Maps are the reference system.
+Don't maintain a separate reference index. The Maps and Bases are the reference system.
+
+## Bases
+
+Dynamic views are `.base` files in `Atlas/Maps/Bases/`. Claude can't run them, but they are plain YAML. Read a `.base` file to learn which folders, properties, and filters a view uses, then search the files directly to reproduce its results. Key Bases:
+
+- `PROJECTS.base`: `Efforts/Projects/*`, grouped by folder, sorted by `rank` descending
+- `EFFORTS.base`: Areas, Projects, Works
+- `SOURCES.base`, `DOTS.base`, `MAPS.base`, `CALENDAR.base`
+- `ORPHANAGE.base`: notes with no outlinks or no backlinks, and placeholder (uncreated) links
+- `+.base`: the inbox
 
 ## Frontmatter Conventions
 
-All notes use YAML frontmatter with these properties:
+| Property | Purpose | Example |
+|---|---|---|
+| `up` | Parent (topic MOC, a Dot it supports, or the Area for an Effort; often empty on Days, Records, Clippings) | `- "[[AI MOC]]"` |
+| `related` | Lateral connections | `- "[[n8n]]"` |
+| `created` | Creation date | `2026-11-23` |
+| `collections` | Collection membership (replaces the older `in`) | `- "[[Projects]]"` |
+| `wayfinder` | Optional wayfinding links | |
+| `tags` | Tags: plain lowercase strings | `- ai` |
+| `rank` | Priority / importance (Efforts, Maps) | `3` |
+| `mapState` | Map maturity marker (Maps) | `- 🟨` |
 
-| Property   | Purpose                          | Example                        |
-|------------|----------------------------------|--------------------------------|
-| `up`       | Parent note (hierarchy)          | `- "[[Home]]"`                 |
-| `down`     | Child notes                      | `- "[[Relate]]"`               |
-| `related`  | Lateral connections              | `- "[[Concepts]]"`             |
-| `in`       | Collection membership            | `- "[[Maps]]"` or `"[[Books]]"` |
-| `created`  | Creation date                    | `2024-09-02`                   |
-| `rank`     | Priority (for Efforts)           | numeric value                  |
-| `tags`     | Obsidian tags                    | `- x/readme`                   |
-| `year`     | Year (for Sources)               | `2020`                         |
-| `encountered` | When a source was encountered | date                           |
-| `aliases`  | Alternative names                | `- Sources Map`                |
+Only `up`, `related`, `created` are universal. Plain Statements and Things usually have nothing more. Type-specific properties: Clippings use `title`, `source`, `author`, `published`, `description`, `year` (the template says `by`, but clipped notes use `author`); Books, Talks, and Courses use `by`, `year`, `yearXP`, `URLs`; Papers use `people`, `year`, `yearXP`; Works use `title`, `medium`, `URLs`, `published`, `WIPstatus`; Meetings use `groupMeetings`, `one-liner`; People use `peopleType`, `peopleGroups`, `lifespan`, ….
+
+**When a template and existing notes disagree, follow the existing notes in that folder.**
+
+### Tag families
+Ideaverse Pro uses tags mainly for *state*, and links for topics.
+- Garden tags (`x/Templates/Master Keys/Master Key (Garden Tags).md`): `garden/plant`, `garden/cultivate`, `garden/probe`, `garden/repot`, `garden/revitalize`, `garden/revisit`, `garden/question`
+- Architect tags: `architect/build`, `architect/renovate`
+- Output tags: `output/article☑️`, `output/youtube☑️`
+- Topic tags (optional, this vault uses some): lowercase and hyphenated (`ai`, `foundryvtt`). Reuse before creating.
+- Clippings carry the tag `clippings`.
 
 ## Templates
 
-Templates live in `x/Templates/` and follow the naming pattern `Template, Properties, [Type].md`:
+- Base templates in `x/Templates/`: `Base 1 Template (up, related, created)`, `Base 2 add-on (collections, wayfinder, tags)`, `Base 3 add-on (rank)`, `Base 4 Template (all)`, `Daily Template`
+- Per-type templates in `x/Templates/Collections/`: People, Groups, Questions, Quotes, Concepts, Ideas, Clippings, Books, Courses, Movies, TV, Songs, Events, Meetings, Projects, Areas of Effort (AOE), Works, Map (MOC / Collections / View), and more
+- Master Keys in `x/Templates/Master Keys/`: canonical tag and property sets
 
-- **Base** — minimal: `up`, `related`, `created`
-- **Effort (Kit)** — adds `rank` for priority sorting
-- **Source (Kit)** — adds `year`, `encountered`, `in` for collection tracking
-- **Daily Note (Kit)** — sections: Freewrite, Big Things Today, Log
-- **Course Weekly (Kit EN)** — weekly lecture note (English): `course`, `semester`, `week`, `status`, sections for takeaways, learning objectives, guiding questions, summary, glossary, quiz, exercises
-- **Kurs Weekly (Kit DE)** — same as above in German
+**Before creating a note, read its template and two or three sibling notes.** Replace placeholders (`{{date}}`, `<% … %>`) with real values. QuickAdd routes: Quote → `Atlas/Dots/Quotes`, Person → `Atlas/Dots/People`, Clipping → `Atlas/Sources/Clippings`, Event/Idea/Meeting/Nice Thing → `Calendar/Records/<type>`, AOE → `Efforts/Areas/AOE`, Project → `Efforts/Projects/Active`, Work → `Efforts/Works`.
 
-## Study System
-
-Weekly lecture notes are managed through a dedicated study pipeline:
-
-- **Dashboard MOC**: `Atlas/Maps/Study Dashboard.md` — Dataview views by course, status, and flat index
-- **Weekly notes location**: `Efforts/Notes/{Institution}/{Semester}/{Course}/` (e.g., `Efforts/Notes/MyUni/Spring2026/CS101/`)
-- **Frontmatter**: weekly notes use `up`/`in` → `[[Study Dashboard]]`, plus `course`, `semester`, `week`, `status`
-- **Status values** (case-sensitive): `"Not Started"` | `"In Progress"` | `"Done"` | `"To Review"`
-- **Tags**: `{institution}`, `{course_tag}`, `lecture`, `week-{n}`
-
-## Dataview Queries
-
-Many MOCs use Dataview queries to dynamically list content. These queries pull from:
-- Folder paths (e.g., `FROM "Efforts/On"`)
-- The `in` property (e.g., `WHERE contains(in, this.file.link)`)
-- Tags (e.g., `FROM -#x/readme` to exclude system notes)
-
-Claude cannot execute Dataview — when you need to know what a dynamic list contains, search the relevant folder or property directly.
-
-## Skills (`.claude/skills/`)
-
-This vault has custom skills for common knowledge management workflows. Use them whenever the user's request matches — don't wait for them to invoke by name.
+## Skills
 
 | Skill | Trigger | What it does |
-|-------|---------|--------------|
-| `web-capture` | User shares a URL or says "save/capture this article" | Fetches URL → structured vault note with frontmatter, tags, MOC placement |
-| `create-knowledge` | User pastes content, imports from Notion/Apple Notes/OneNote, or describes something to capture | Any input → structured vault note with ACE conventions applied |
-| `vault-review` | User asks "review my vault", "what needs attention", "clean up" | Runs 6 diagnostic checks: inbox, orphans, frontmatter, efforts, connections, tags |
+|---|---|---|
+| `web-capture` | User shares a URL or says "save/capture/clip this" | Fetches the URL → Source note in `Atlas/Sources/<type>/` from the matching template |
+| `create-knowledge` | User pastes content, imports from another app, logs an idea/meeting, starts a project | Any input → the right note type, folder, and template |
+| `vault-review` | "Review my vault", "what needs attention", "clean up" | Inbox, orphans (ORPHANAGE rules), frontmatter, efforts, connections, placeholder links, tags |
 
-**Key behaviors shared across skills:**
-- Always scan existing tags before creating new ones — reuse first
-- Always consult `Atlas/Maps/Library.md` to find the right MOC for the `in` property
-- Always confirm file name, location, and frontmatter with the user before writing
-- Distill content — never copy-paste raw source material into a note
+Shared behaviors:
+- Reuse existing tags before creating new ones.
+- Use `Atlas/Maps/Maps.md` and `Library.md` to pick the `up` MOC.
+- Confirm file name, location, and frontmatter with the user before writing.
+- Distill content. Never paste raw source material into a note.
 
 ## Rules for Working in This Vault
 
-1. **Respect the ACE structure** — place notes in the correct folder based on their nature
-2. **Always add frontmatter** — use the appropriate template properties
-3. **Link liberally** — use `[[wikilinks]]` to connect ideas (this is the core of LYT)
-4. **Use `up` for hierarchy** — every note should link up to its parent map or Home
-5. **Use `in` for collections** — to make notes appear in Dataview-powered MOCs
-6. **New MOCs go in `Atlas/Maps/`** — and should have `in: - "[[Maps]]"` in frontmatter
-7. **New knowledge notes go in `Atlas/Dots/`** — organized in subfolders by type
-8. **Quick captures go in `+/`** — to be processed later via the Add workflow
-9. **Efforts use intensity folders** — move files between On/Ongoing/Simmering/Sleeping as priority changes
-10. **System files stay in `x/`** — templates, images, config
-11. **Use skills proactively** — if the user's request matches a skill, use it without being asked
+1. **Respect ACE**: Atlas = knowledge, Calendar = time, Efforts = action.
+2. **Use the template** for the note type; always include frontmatter.
+3. **`collections`, not `in`**: it decides which collection maps and Bases a note appears in.
+4. **Link liberally** with `[[wikilinks]]`, the core of LYT.
+5. **`up` for hierarchy**: Dots/Sources → a topic MOC; Projects/Works → their Area of Effort.
+6. **New MOCs go in `Atlas/Maps/`** with `collections: - "[[Maps]]"`.
+7. **Sources go in `Atlas/Sources/<type>/`**. Atomic ideas go in `Atlas/Dots/<type>/`.
+8. **Quick captures go in `+/`** to be processed later.
+9. **Projects move between `Active/`, `Simmering/`, and `Sleeping/`** as priority changes.
+10. **System files stay in `x/`.**
+11. **Use the skills proactively** when a request matches one.

@@ -2,6 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> **This fork targets Ideaverse Pro 2.5.** The skills and `CLAUDE.md` use the Pro 2.5 layout: `Atlas/Sources/`, `Efforts/Areas|Projects|Works`, `Calendar/Days|Records|Reviews`, the `collections` property, and Obsidian Bases. The skills read note templates from `x/Templates/Collections/` when they run. For the original (Ideaverse Lite) version, see [yanickfischer/obsidian-ACE-method-skills](https://github.com/yanickfischer/obsidian-ACE-method-skills).
+
 A collection of three specialized Claude Code skills designed for managing an [Obsidian](https://obsidian.md) vault structured with Nick Milo's **ACE Method** from the [Ideaverse](https://www.linkingyourthinking.com/).
 
 These skills enable efficient knowledge capture, creation, and maintenance while following the Access-Control-Express (ACE) organizational framework and Linking Your Thinking (LYT) principles.
@@ -22,13 +24,14 @@ This repository contains three custom skills that transform Claude Code into a p
 
 The **ACE Method** (Access-Control-Express) is a folder structure system created by Nick Milo for organizing personal knowledge:
 
-- **Atlas/** — Your knowledge base (Maps and Dots)
-  - **Maps/** — Maps of Content (MOCs) that organize and link related notes
-  - **Dots/** — Individual knowledge notes (concepts, people, sources, things)
-- **Calendar/** — Time-based notes and logs
-- **Efforts/** — Active projects and initiatives, organized by intensity (On, Ongoing, Simmering, Sleeping)
+- **Atlas/** — Your knowledge
+  - **Maps/** — Maps of Content (MOCs), plus `Bases/` with the `.base` dashboard views
+  - **Dots/** — Atomic notes: People, Questions, Quotes, Statements, Things
+  - **Sources/** — What you consumed: Books, Clippings, Courses, Movies, Papers, Talks, TV, …
+- **Calendar/** — Days, Records (Events, Ideas, Meetings, Nice Things), Reviews
+- **Efforts/** — Areas (of Effort), Projects (Active, Simmering, Sleeping), Works
 - **+/** — Quick capture inbox for unprocessed notes
-- **Extras/** — Templates, attachments, and supporting files
+- **x/** — Templates, packs, visuals, and other system files
 
 These skills work within this structure, automatically placing notes in the correct folders and creating appropriate metadata following the [Linking Your Thinking](https://www.linkingyourthinking.com/) framework.
 
@@ -39,8 +42,8 @@ These skills work within this structure, automatically placing notes in the corr
 ### Prerequisites
 
 - [Claude Code](https://claude.ai/claude-code) CLI installed
-- An Obsidian vault structured using the ACE Method (Get Ideaverse Light or Pro from https://www.linkingyourthinking.com)
-- `CLAUDE.md` and `CONTEXT.md` files in your vault root explaining your structure (see Setup Guide below)
+- An Obsidian vault structured using the ACE Method (this fork expects Ideaverse Pro 2.5, from https://www.linkingyourthinking.com)
+- The included `CLAUDE.md` copied to your vault root (see Setup Guide below)
 
 ### Installation
 
@@ -77,7 +80,7 @@ The included [`CLAUDE.md`](CLAUDE.md) is the central configuration file that giv
 - **Navigation system** — How to use Maps of Content (MOCs) as the primary reference layer
 - **Frontmatter conventions** — Required properties (`up`, `in`, `related`, `created`, `tags`, etc.) and their purpose
 - **Templates** — Available note templates and their property presets
-- **Study system** — A dedicated pipeline for managing weekly lecture notes (optional)
+- **Bases** — How to read the `.base` dashboard files Claude can't run
 - **Skill routing** — When and how to trigger each skill automatically
 - **Rules** — The 11 core rules for working within the vault
 
@@ -179,32 +182,13 @@ claude /web-capture https://example.com/article-about-ai
 
 To get the most out of these skills, set up your Obsidian vault with supporting files that help Claude understand your structure:
 
-### 1. Create `CLAUDE.md` in your vault root
+### 1. Copy `CLAUDE.md` into your vault root
 
-This file tells Claude about your vault structure, naming conventions, and organizational principles. Example:
+The included [`CLAUDE.md`](CLAUDE.md) describes the Ideaverse Pro 2.5 layout, frontmatter, templates, Bases, and tag families. Edit it to add your own topic MOCs and Areas of Effort.
 
-```markdown
-# Vault Structure
+### 2. Keep the Pro templates in place
 
-This is an Ideaverse vault following the ACE Method.
-
-## Folder Organization
-- Atlas/Maps/ — Maps of Content (MOCs)
-- Atlas/Dots/ — Knowledge notes (concepts, people, sources)
-- Efforts/ — Projects organized by intensity
-- Calendar/ — Daily notes and time-based logs
-- +/ — Inbox for quick captures
-
-## Conventions
-- Use lowercase-hyphenated tags
-- Always include frontmatter with up, created, in, and tags
-- Use wikilinks [[like this]] to connect notes
-- Follow the LYT Classification system for MOCs (see Atlas/Maps/Library.md)
-```
-
-### 2. Create `CONTEXT.md` in your vault root
-
-Provide additional context about your specific knowledge domains, active projects, and how you prefer to organize information.
+The skills read `x/Templates/Collections/*.md` and `x/Templates/Master Keys/*.md` each time they create a note. If you customise a template, new notes follow your version automatically.
 
 ### 3. Maintain a Library.md MOC
 
